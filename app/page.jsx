@@ -1,9 +1,8 @@
 import { C, F } from "../lib/theme";
-import { players, mlbPlayers, news } from "../lib/data";
+import { players, news } from "../lib/data";
 
 function levelBucket() {
   const base = [
-    { code: "MLB", ko: "메이저리그" },
     { code: "AAA", ko: "트리플A" },
     { code: "AA", ko: "더블A" },
     { code: "A+", ko: "하이 싱글A" },
@@ -12,10 +11,7 @@ function levelBucket() {
   ];
   return base.map((lv) => ({
     ...lv,
-    players:
-      lv.code === "MLB"
-        ? mlbPlayers.map((p) => ({ ...p, slug: null }))
-        : players.filter((p) => p.level === lv.code).map((p) => ({ name: p.name, team: p.team, slug: p.slug })),
+    players: players.filter((p) => p.level === lv.code).map((p) => ({ name: p.name, team: p.team, slug: p.slug })),
   }));
 }
 
@@ -44,18 +40,17 @@ export default function Home() {
       </header>
 
       <section className="px-5 sm:px-10 pt-12 pb-16 max-w-5xl mx-auto">
-        <Eyebrow>2026 시즌 · 업데이트 07.25</Eyebrow>
+        <Eyebrow>2026 시즌 · 업데이트 07.26</Eyebrow>
         <h1 className="leading-tight mb-3" style={{ fontFamily: F.display, fontSize: "clamp(2.2rem, 7vw, 4rem)" }}>지금 어디까지 올라왔나</h1>
         <p className="text-sm sm:text-base mb-10 max-w-lg" style={{ color: C.slate }}>
-          미국에서 뛰는 한국 선수들이 어느 단계에 있는지, 이번 주에 누가 움직였는지 한 곳에서 봅니다.
+          미국 마이너리그에서 뛰는 한국 선수들이 어느 단계에 있는지, 이번 주에 누가 움직였는지 한 곳에서 봅니다.
         </p>
         <div style={{ borderBottom: `1px solid ${C.rule}` }}>
           {levels.map((lv) => {
-            const isTop = lv.code === "MLB";
             return (
               <div key={lv.code} className="flex items-stretch border-t" style={{ borderColor: C.rule }}>
                 <div className="w-20 sm:w-32 shrink-0 flex flex-col justify-center py-4 pr-3" style={{ borderRight: `1px solid ${C.rule}` }}>
-                  <div className="leading-none" style={{ fontFamily: F.display, fontSize: isTop ? "1.9rem" : "1.5rem", color: isTop ? C.ink : C.slate }}>{lv.code}</div>
+                  <div className="leading-none" style={{ fontFamily: F.display, fontSize: "1.5rem", color: C.slate }}>{lv.code}</div>
                   <div className="text-xs mt-1" style={{ color: C.slate }}>{lv.ko}</div>
                 </div>
                 <div className="flex-1 flex flex-wrap gap-2 items-center py-4 pl-4">
